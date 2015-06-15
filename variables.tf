@@ -8,10 +8,10 @@ variable "aws_az_name" {}
 
 # Networking
 variable "vpc_cidr" {
-  default = "10.10.0.0/16"
+  default = "10.103.0.0/16"
 }
 variable "subnet_cidr" {
-  default = "10.10.0.0/24"
+  default = "10.103.0.0/24"
 }
 variable "client_cidr" {}
 
@@ -22,7 +22,7 @@ variable "aws_ecs_ami_id" {
   default = "ami-4188a071" # amzn-ami-2015.03.a-amazon-ecs-optimized
 }
 variable "aws_instance_type" {
-  default = "t2.micro"
+  default = "c3.xlarge"
 }
 variable "asg_min_size" {
   default = 1

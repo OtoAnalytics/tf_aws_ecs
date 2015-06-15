@@ -115,12 +115,12 @@ resource "aws_security_group" "instance" {
 
 # IAM
 resource "aws_iam_instance_profile" "ecs" {
-    name = "EcsInstance"
+    name = "EcsInstance3"
     roles = ["${aws_iam_role.ecs_instance.name}"]
 }
 
 resource "aws_iam_role" "ecs_instance" {
-    name = "EcsInstance"
+    name = "EcsInstance3"
     path = "/"
     assume_role_policy = <<EOF
 {
@@ -138,7 +138,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "ecs_instance" {
-    name = "EcsInstance"
+    name = "EcsInstance3"
     role = "${aws_iam_role.ecs_instance.name}"
     policy = <<EOF
 {
@@ -157,6 +157,15 @@ resource "aws_iam_role_policy" "ecs_instance" {
       "Resource": [
         "*"
       ]
+    },
+    {
+        "Action": ["s3:GetObject"],
+        "Sid": "",
+        "Resource": [ 
+          "arn:aws:s3:::womply-devops/womply-aws/terraform/modules/tf_aws_ecs/ecs.config",
+          "arn:aws:s3:::womply-devops/womply-aws/terraform/modules/tf_aws_ecs/dockercfg"
+        ],
+        "Effect": "Allow"
     }
   ]
 }
@@ -217,6 +226,9 @@ resource "aws_launch_configuration" "main" {
   user_data = <<USER_DATA
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
+yum install -y aws-cli
+aws s3 cp s3://womply-devops/womply-aws/terraform/modules/tf_aws_ecs/ecs.config /etc/ecs/ecs.config
+aws s3 cp s3://womply-devops/womply-aws/terraform/modules/tf_aws_ecs/dockercfg /root/.dockercfg
 USER_DATA
 }
 
@@ -227,6 +239,7 @@ resource "aws_elb" "main" {
 
   listener {
     instance_port = "${var.instance_port}"
+    instance_port = 8080
     instance_protocol = "http"
     lb_port = 80
     lb_protocol = "http"
