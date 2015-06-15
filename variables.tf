@@ -8,10 +8,10 @@ variable "aws_az_name" {}
 
 # Networking
 variable "vpc_cidr" {
-  default = "10.10.0.0/16"
+  default = "10.103.0.0/16"
 }
 variable "subnet_cidr" {
-  default = "10.10.0.0/24"
+  default = "10.103.0.0/24"
 }
 variable "client_cidr" {}
 
