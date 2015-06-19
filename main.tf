@@ -239,7 +239,7 @@ resource "aws_elb" "main" {
 
   listener {
     instance_port = "${var.instance_port}"
-    instance_port = 8080
+    #instance_port = 8080
     instance_protocol = "http"
     lb_port = 80
     lb_protocol = "http"
@@ -283,6 +283,7 @@ resource "aws_ecs_service" "main" {
     elb_name = "${aws_elb.main.id}"
     container_name = "${var.container_name}"
     container_port = "${var.service_port_number}"
+    internal = true
   }
 }
 
