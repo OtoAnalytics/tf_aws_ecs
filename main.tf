@@ -7,7 +7,7 @@ provider "aws" {
 
 # Networking
 resource "aws_vpc" "main" {
-  cidr_block = "${var.vpc_cidr}"
+  cidr_block = "${var.cidr}.0.0/16"
 
   tags {
     Name = "${var.name_tag}"
@@ -16,7 +16,7 @@ resource "aws_vpc" "main" {
 
 resource "aws_subnet" "main" {
   vpc_id = "${aws_vpc.main.id}"
-  cidr_block = "${var.subnet_cidr}"
+  cidr_block = "${var.cidr}.0.0/24"
   availability_zone = "${var.aws_az_name}"
 
   tags {
@@ -283,7 +283,6 @@ resource "aws_ecs_service" "main" {
     elb_name = "${aws_elb.main.id}"
     container_name = "${var.container_name}"
     container_port = "${var.service_port_number}"
-    internal = true
   }
 }
 

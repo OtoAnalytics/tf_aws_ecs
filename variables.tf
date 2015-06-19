@@ -41,4 +41,7 @@ variable "service_desired_count" {}
 variable "service_port_number" {}
 variable "instance_port" {}
 
+# use specific
+variable "cidr" {}
+
 # -*- mode: ruby -*-
